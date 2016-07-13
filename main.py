@@ -1,6 +1,8 @@
 import os
 from flask import Flask
 
+import sae.kvdb
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -15,6 +17,14 @@ def user(name):
 @app.route('/post/<int:id>')
 def show_post(id):
     return '您的id号码是%d' % id
+
+@app.route()
+def kv():
+	kv = sae.kvdb.Client()
+	k = 'foo'
+	kv.set(k, 2)
+	kv.add(k, 3)
+	print(kv.get(k))
 	
 @app.errorhandler(404)
 def not_found(error):
